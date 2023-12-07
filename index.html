@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative UI Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .question-container {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 20px;
+            border-bottom: 2px solid #fff;
+        }
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option {
+            margin: 8px 0;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .option:hover {
+            background-color: #ddd;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .correct {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .wrong {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .score-container {
+            margin-top: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <form id="quizForm">
+        <div class="question-container">
+            <div class="question">1. What does "UI" stand for?</div>
+        </div>
+        <ul class="options">
+            <li class="option"><input type="radio" name="q1" value="User Integration"> User Integration</li>
+            <li class="option"><input type="radio" name="q1" value="User Interface"> User Interface</li>
+            <li class="option"><input type="radio" name="q1" value="Unified Interaction"> Unified Interaction</li>
+        </ul>
+
+        <div class="question-container">
+            <div class="question">2. What is the purpose of wireframing in UI design?</div>
+        </div>
+        <ul class="options">
+            <li class="option"><input type="radio" name="q2" value="Decorative Border"> To create a decorative border</li>
+            <li class="option"><input type="radio" name="q2" value="Visual Simulation"> To simulate the final visual design</li>
+            <li class="option"><input type="radio" name="q2" value="Basic Structure"> To outline the basic structure</li>
+        </ul>
+
+        <div class="question-container">
+            <div class="question">3. Which color scheme uses shades of a single color for a harmonious visual experience?</div>
+        </div>
+        <ul class="options">
+            <li class="option"><input type="radio" name="q3" value="Polychromatic"> Polychromatic</li>
+            <li class="option"><input type="radio" name="q3" value="Dichromatic"> Dichromatic</li>
+            <li class="option"><input type="radio" name="q3" value="Monochromatic"> Monochromatic</li>
+        </ul>
+
+        <div class="question-container">
+            <div class="question">4. What is the purpose of a "modal window" in UI design?</div>
+        </div>
+        <ul class="options">
+            <li class="option"><input type="radio" name="q4" value="Fashion Showcase"> To showcase the latest fashion trends</li>
+            <li class="option"><input type="radio" name="q4" value="Content Display"> To display content without obstructing</li>
+            <li class="option"><input type="radio" name="q4" value="Mode Navigation"> To navigate between different modes</li>
+        </ul>
+
+        <div class="question-container">
+            <div class="question">5. What does the term "responsive design" refer to in UI/UX?</div>
+        </div>
+        <ul class="options">
+            <li class="option"><input type="radio" name="q5" value="Device Agnostic"> Designing for a specific device</li>
+            <li class="option"><input type="radio" name="q5" value="Adaptive Aesthetics"> Adapting to various screen sizes and devices</li>
+            <li class="option"><input type="radio" name="q5" value="Fixed Layout"> Keeping a fixed layout for all screens</li>
+        </ul>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="score-container" id="scoreContainer"></div>
+</div>
+
+<script>
+    document.getElementById("quizForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const userAnswers = {
+            q1: document.querySelector('input[name="q1"]:checked').value,
+            q2: document.querySelector('input[name="q2"]:checked').value,
+            q3: document.querySelector('input[name="q3"]:checked').value,
+            q4: document.querySelector('input[name="q4"]:checked').value,
+            q5: document.querySelector('input[name="q5"]:checked').value,
+        };
+
+        const correctAnswers = {
+            q1: "User Interface",
+            q2: "Basic Structure",
+            q3: "Monochromatic",
+            q4: "Content Display",
+            q5: "Adaptive Aesthetics",
+        };
+
+        let score = 0;
+
+        for (const question in userAnswers) {
+            const selectedOption = document.querySelector(`input[name="${question}"][value="${userAnswers[question]}"]`);
+            if (userAnswers[question] === correctAnswers[question]) {
+                selectedOption.parentNode.classList.add("correct");
+                score++;
+            } else {
+                selectedOption.parentNode.classList.add("wrong");
+            }
+        }
+
+        // Display the total score
+        const scoreContainer = document.getElementById("scoreContainer");
+        scoreContainer.innerHTML = `Total Score: ${score} out of ${Object.keys(userAnswers).length}`;
+    });
+</script>
+
+</body>
+</html>
